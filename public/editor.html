@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Editor de Bloques</title>
+    <link href="css/styles.css" rel="stylesheet" type="text/css">
+
+    <script>
+  document.addEventListener('DOMContentLoaded', function() {
+  var contenidoArchivo = sessionStorage.getItem('contenidoArchivo');
+  var fileName = sessionStorage.getItem('fileName');
+
+  if (contenidoArchivo) {
+    var fileLink = document.createElement('a');
+    fileLink.href = contenidoArchivo;
+    fileLink.download = fileName;
+    fileLink.target = '_blank';
+    fileLink.click();
+    sessionStorage.removeItem('contenidoArchivo');
+    sessionStorage.removeItem('fileName');
+  }
+});
+    </script>
+        
+<style type="text/css">
+
+  /* Estilos para el modo Código HTML */
+  .editor.code-mode {
+            white-space: pre-wrap;
+        }
+
+    </style>
+
+</head>
+<body>
+    <div id="sidebar">
+    <div class="sidebar-column">
+           
+            <ul>
+                <li>
+                    <button onclick="cargarHTML()">
+                        <img src="ruta_de_la_imagen.png" alt="Icono">
+                        <span>Cargar HTML</span>
+                    </button>
+                </li>
+                <li>
+                    <button onclick="cargarCSS()">
+                        <img src="ruta_de_la_imagen.png" alt="Icono">
+                        <span>Cargar CSS</span>
+                    </button>
+                </li>
+                <li>
+                    <button onclick="descargarHTML()">
+                        <img src="ruta_de_la_imagen.png" alt="Icono">
+                        <span>Descargar HTML</span>
+                    </button>
+                </li>
+                <li>
+                    <button onclick="cambiarColorFondo()">
+                        <img src="ruta_de_la_imagen.png" alt="Icono">
+                        <span>Cambiar color de fondo</span>
+                    </button>
+                </li>
+                <li>
+                    <button onclick="aplicarNegrita()">
+                        <img src="ruta_de_la_imagen.png" alt="Icono">
+                        <span>Negrita</span>
+                    </button>
+                </li>
+                <li>
+                    <button onclick="aplicarCursiva()">
+                        <img src="ruta_de_la_imagen.png" alt="Icono">
+                        <span>Italica</span>
+                    </button>
+                           <li>
+                    <button onclick="insertarImagen()">
+                        <img src="ruta_de_la_imagen.png" alt="Icono">
+                        <span>Insertar Imagen</span>
+                    </button>
+                </li>
+                <li>
+                    <button onclick="justificarTexto()">
+                        <img src="ruta_de_la_imagen.png" alt="Icono">
+                        <span>Justificar</span>
+                    </button>
+                
+                </li>
+                </li>
+            </ul>
+        </div>
+        <div class="sidebar-column">
+            <ul>
+                <li>
+                    <button onclick="alinearIzquierda()">
+                        <img src="ruta_de_la_imagen.png" alt="Icono">
+                        <span>Alinear Izquierda</span>
+                    </button>
+                </li>
+                <li>
+                    <button onclick="alinearCentro()">
+                        <img src="ruta_de_la_imagen.png" alt="Icono">
+                        <span>Alinear Centro</span>
+                    </button>
+                </li>
+                <li>
+                    <button onclick="alinearDerecha()">
+                        <img src="ruta_de_la_imagen.png" alt="Icono">
+                        <span>Alinear Derecha</span>
+                    </button>
+                </li>
+                <li>
+                    <button onclick="eliminarFormato()">
+                        <img src="ruta_de_la_imagen.png" alt="Icono">
+                        <span>Eliminar Formato</span>
+                    </button>
+                </li>
+                <li>
+                    <button onclick="insertarEnlace()">
+                        <img src="ruta_de_la_imagen.png" alt="Icono">
+                        <span>Insertar Enlace</span>
+                    </button>
+                </li>
+                <li>
+                    <button onclick="insertarListaOrdenada()">
+                        <img src="ruta_de_la_imagen.png" alt="Icono">
+                        <span>Lista</span>
+                    </button>
+                </li>
+         
+                <li>
+                    <button onclick="subrayarTexto()">
+                        <img src="ruta_de_la_imagen.png" alt="Icono">
+                        <span>Subrayar</span>
+                    </button>
+                </li>
+
+                <li><button onclick="verCodigoHTML()">Ver Código HTML</button></li>
+                <li> <button onclick="verContenidoDiseno()">Ver Modo Diseño</button></li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="content">
+        <div class="editor" id="editor" onclick="seleccionarDiv(event)"></div>
+    </div>
+    <script>
+        var contenidoEditado = ''; // Variable global para almacenar el contenido editado
+
+        function cargarHTML() {
+    var input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.html';
+
+    input.onchange = function(e) {
+        var file = e.target.files[0];
+        var reader = new FileReader();
+
+        reader.onload = function(e) {
+            var contenidoHTML = e.target.result;
+            var contenidoSinEspacios = contenidoHTML.replace(/>\s+</g, '><'); // Eliminar espacios vacíos entre etiquetas
+            document.getElementById('editor').innerHTML = contenidoSinEspacios;
+            document.getElementById('editor').setAttribute('contenteditable', 'true');
+            contenidoEditado = contenidoSinEspacios; // Almacenar el contenido editado en la variable global
+        };
+
+        reader.readAsText(file);
+    };
+
+    input.click();
+}
+
+function recargarHTML() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const fileUrl = urlParams.get('file');
+
+      if (fileUrl) {
+        fetch(fileUrl)
+          .then(response => response.text())
+          .then(content => {
+            var contenidoSinEspacios = content.replace(/>\s+</g, '><'); // Eliminar espacios vacíos entre etiquetas
+            document.getElementById('editor').innerHTML = contenidoSinEspacios;
+            document.getElementById('editor').setAttribute('contenteditable', 'true');
+          })
+          .catch(error => {
+            console.error(error);
+          });
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', recargarHTML);
+
+        function descargarHTML() {
+            var contenidoDescargable = document.getElementById('editor').innerHTML;
+            var a = document.createElement('a');
+            var file = new Blob([contenidoDescargable], {type: 'text/html'});
+            a.href = URL.createObjectURL(file);
+            a.download = 'archivo_editado.html';
+            a.click();
+        }
+
+        function cambiarColorFondo() {
+            var selectedContent = window.getSelection().toString();
+            var newBackgroundColor = prompt('Ingrese el color de fondo (en formato hexadecimal)');
+
+            if (selectedContent !== '') {
+                var spanElement = document.createElement('span');
+                spanElement.style.backgroundColor = newBackgroundColor;
+
+                var range = window.getSelection().getRangeAt(0);
+                range.surroundContents(spanElement);
+            }
+        }
+
+        function verCodigoHTML() {
+            var contenidoEditado = document.getElementById('editor').innerHTML;
+            var contenidoFormateado = formatearCodigoHTML(contenidoEditado);
+
+            var preElement = document.createElement('pre');
+            preElement.style.whiteSpace = 'pre-wrap';
+            preElement.setAttribute('contenteditable', 'true');
+            preElement.textContent = contenidoFormateado;
+
+            document.getElementById('content').innerHTML = '';
+            document.getElementById('content').appendChild(preElement);
+        }
+
+        function formatearCodigoHTML(codigo) {
+            var div = document.createElement('div');
+            div.innerHTML = codigo;
+
+            var contenidoFormateado = '';
+            for (var i = 0; i < div.childNodes.length; i++) {
+                contenidoFormateado += div.childNodes[i].outerHTML + '\n';
+            }
+
+            return contenidoFormateado;
+        }
+ 
+        function verContenidoDiseno() {
+            var contenidoEditado = document.getElementById('editor').innerHTML;
+            var previewElement = document.getElementById('editor');
+            previewElement.innerHTML = contenidoEditado;
+        }
+
+        function aplicarNegrita() {
+            document.execCommand('bold', false, null);
+        }
+
+        function aplicarCursiva() {
+            document.execCommand('italic', false, null);
+        }
+
+        function alinearIzquierda() {
+            document.execCommand('justifyLeft', false, null);
+        }
+
+        function alinearCentro() {
+            document.execCommand('justifyCenter', false, null);
+        }
+
+        function alinearDerecha() {
+            document.execCommand('justifyRight', false, null);
+        }
+
+        function eliminarFormato() {
+            document.execCommand('removeFormat', false, null);
+        }
+
+        function insertarEnlace() {
+            var url = prompt('Ingrese la URL del enlace');
+            document.execCommand('createLink', false, url);
+        }
+
+        function insertarImagen() {
+    var input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+
+    input.onchange = function(e) {
+        var file = e.target.files[0];
+        var reader = new FileReader();
+
+        reader.onload = function(e) {
+            var imageUrl = e.target.result;
+            document.execCommand('insertImage', false, imageUrl);
+        };
+
+        reader.readAsDataURL(file);
+    };
+
+    input.click();
+}
+
+        function insertarListaOrdenada() {
+    document.execCommand('insertOrderedList', false, null);
+}
+
+function subrayarTexto() {
+    document.execCommand('underline', false, null);
+}
+
+function justificarTexto() {
+    document.execCommand('justifyFull', false, null);
+}
+
+function cargarCSS() {
+    var linkTags = document.querySelectorAll('#editor link[rel="stylesheet"]');
+    var cssLoadedCount = 0;
+
+    if (linkTags.length === 0) {
+        // No se encontraron etiquetas <link> con el atributo rel="stylesheet"
+        // Puedes realizar acciones adicionales si es necesario
+        console.log('No se encontraron archivos CSS vinculados al HTML cargado');
+        return;
+    }
+
+    for (var i = 0; i < linkTags.length; i++) {
+        var href = linkTags[i].getAttribute('href');
+        var cssFile = new XMLHttpRequest();
+        cssFile.open('GET', href, true);
+        cssFile.onreadystatechange = function() {
+            if (cssFile.readyState === 4 && cssFile.status === 200) {
+                var styleTag = document.createElement('style');
+                styleTag.innerHTML = cssFile.responseText;
+                document.head.appendChild(styleTag);
+                cssLoadedCount++;
+
+                if (cssLoadedCount === linkTags.length) {
+                    // Todos los archivos CSS han sido cargados
+                    console.log('Se han cargado todos los archivos CSS');
+                    // Puedes realizar acciones adicionales si es necesario
+                }
+            }
+        };
+        cssFile.send();
+    }
+}
+
+function seleccionarDiv(event) {
+            var divElement = event.target.closest('div');
+            if (divElement) {
+                agregarBotonEliminar(divElement);
+            }
+        }
+
+    </script>
+</body>
+</html>
