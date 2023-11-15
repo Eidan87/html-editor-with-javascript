@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Editor de Bloques HTML</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-2 bg-light border-right" style="height: 100vh;">
+                <h5 class="text-center py-2">Menu</h5>
+
+                <!-- Botones -->
+                <button id="save-button" class="btn btn-primary btn-block mb-2">Guardar</button>
+                <button id="load-button" class="btn btn-primary btn-block mb-2">Cargar</button>
+                <button id="undo-button" class="btn btn-primary btn-block mb-2">Deshacer</button>
+                <button id="redo-button" class="btn btn-primary btn-block mb-2">Rehacer</button>
+                <button id="bold-button" class= "btn btn-primary btn-block mb-2">Negrita</button>
+                <button id="italic-button" class="btn btn-primary btn-block mb-2">Cursiva</button>
+                <button id="underline-button" class="btn btn-primary btn-block mb-2">Subrayado</button>
+                <button id="insert-image-button" class="btn btn-primary btn-block mb-2">Insertar Imagen</button>
+                <button id="insert-link-button" class="btn btn-primary btn-block mb-2">Insertar Enlace</button>
+                <button id="preview-button" class="btn btn-primary btn-block mb-2">Previsualizar</button>
+                <button id="clear-format-button" class="btn btn-primary btn-block mb-2">Limpiar Formato</button>
+                <button id="save-template-button" class="btn btn-secondary btn-block mb-2">Guardar como Plantilla</button>
+                <button id="code-block-button" class="btn btn-secondary btn-block mb-2">Bloque de Código</button>
+                
+
+
+
+                <!-- Inputs -->
+                <div class="form-group mt-3">
+                    <label for="text-color-picker">Color de Texto:</label>
+                    <input type="color" id="text-color-picker" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="bg-color-picker">Color de Fondo:</label>
+                    <input type="color" id="bg-color-picker" class="form-control">
+                </div>
+                <button id="export-button" class="btn btn-secondary btn-block mt-2">Exportar</button>
+               
+                <!-- otro Input para importar el html -->
+               
+                <div class="form-group mt-3">
+                    <input type="file" id="import-input" class="form-control-file">
+                </div>
+            </div>
+
+            <div class="col-8 py-3">
+                <h2 class="mb-3">Editor de Bloques HTML y CSS</h2>
+                <div id="editor"></div>
+                <button id="add-block" class="btn btn-primary">Agregar Bloque</button>
+            </div>
+            <div class="col-2">
+
+                <h5 class="text-center py-2">Menu 2</h5>
+        <!-- Botones para insertar bloques predefinidos -->
+<button id="insert-title-button" class="btn btn-primary btn-block mb-2">Insertar Título con Texto</button>
+<button id="insert-image-button" class="btn btn-primary btn-block mb-2">Insertar Imagen con Pie de Página</button>
+<button id="insert-title-button" class="btn btn-primary btn-block mb-2">Insertar Título con Texto</button>
+<button id="insert-image-button" class="btn btn-primary btn-block mb-2">Insertar Imagen con Pie de Página</button>
+<button id="insert-gallery-button" class="btn btn-primary btn-block mb-2">Insertar Galería de Imágenes</button>
+<button id="insert-image-text-button" class="btn btn-primary btn-block mb-2">Insertar Imagen con Texto</button>
+<button id="insert-button-button" class="btn btn-primary btn-block mb-2">Insertar Botón</button>
+<!-- Agrega botones para los otros tipos de bloques aquí -->
+</div>
+        </div>
+    </div>
+
+
+
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+app.listen(3000, () => {
+  console.log('Servidor en ejecución en el puerto 3000');
+});
